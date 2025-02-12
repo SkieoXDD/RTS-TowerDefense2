@@ -23,14 +23,18 @@ public class CameraController : MonoBehaviour
     public Vector3 dragCurrentPosition;
     public Vector3 rotateStartPosition;
     public Vector3 rotateCurrentPosition;
+ 
+    
+    
     void Start()
-    {
+    {        
         newPosition = transform.position;
         newRotation = transform.rotation;
         newZoom = transform.localPosition;
+
     }
 
-    // Update is called once per frame
+ 
     void Update()
     {
         HandleMovementInput();
@@ -43,7 +47,7 @@ public class CameraController : MonoBehaviour
     {
         if (Input.mouseScrollDelta.y != 0)
         {
-            newZoom += Input.mouseScrollDelta.y * -zoomAmount;
+            newZoom += Input.mouseScrollDelta.y * zoomAmount;
         }
         if (Input.GetMouseButtonDown(0))
         {
@@ -59,8 +63,25 @@ public class CameraController : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(2))
         {
+            Plane plane = new Plane(Vector3.up, Vector3.zero);
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            float entry;
+
+            if (plane.Raycast(ray, out entry))
+            {
+                dragStartPosition = ray.GetPoint(entry);
+
+             
+            }
+        }
+
+        if (Input.GetMouseButton(2))
+        {
+
             Plane plane = new Plane(Vector3.up, Vector3.zero);
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -71,7 +92,7 @@ public class CameraController : MonoBehaviour
             {
                 dragCurrentPosition = ray.GetPoint(entry);
 
-                newPosition = transform.position + dragStartPosition -dragCurrentPosition;
+                newPosition = transform.position + dragStartPosition - dragCurrentPosition;
             }
         }
 
