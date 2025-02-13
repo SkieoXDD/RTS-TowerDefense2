@@ -7,15 +7,12 @@ public class UnitMovement : MonoBehaviour
     NavMeshAgent agent;
     public LayerMask ground;
 
-
-   
     void Start()
     {
         cam = Camera.main;
         agent = GetComponent<NavMeshAgent>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButton(1))
